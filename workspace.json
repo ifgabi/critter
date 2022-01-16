@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "projects": {
+    "critter-bot": "apps/critter-bot"
+  }
+}

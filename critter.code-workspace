@@ -1,0 +1,54 @@
+{
+	"folders": [
+		{
+			"name": "Critter Server(bot)",
+			"path": "apps/critter-bot"
+		},
+		{
+			"name": "Project",
+			"path": "."
+		}
+	],
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "automatic",
+		"angular.enable-strict-mode-prompt": false,
+		"discord.enabled": true,
+		"todo-tree.tree.disableCompactFolders": false
+	},
+	"extensions": {
+		"recommendations": [
+			"akamud.vscode-theme-onedark",
+			"Angular.ng-template",
+			"appland.appmap",
+			"arcticicestudio.nord-visual-studio-code",
+			"dbaeumer.vscode-eslint",
+			"eamodio.gitlens",
+			"EditorConfig.EditorConfig",
+			"eg2.vscode-npm-script",
+			"Equinusocio.vsc-community-material-theme",
+			"Equinusocio.vsc-material-theme",
+			"equinusocio.vsc-material-theme-icons",
+			"esbenp.prettier-vscode",
+			"firsttris.vscode-jest-runner",
+			"Gruntfuggly.todo-tree",
+			"icrawl.discord-vscode",
+			"johnpapa.Angular2",
+			"johnpapa.vscode-peacock",
+			"johnpapa.winteriscoming",
+			"msjsdiag.debugger-for-edge",
+			"nrwl.angular-console",
+			"Pivotal.vscode-spring-boot",
+			"PKief.material-icon-theme",
+			"redhat.fabric8-analytics",
+			"redhat.java",
+			"redhat.vscode-commons",
+			"vscjava.vscode-java-debug",
+			"vscjava.vscode-java-pack",
+			"vscjava.vscode-java-test",
+			"vscjava.vscode-maven",
+			"vscjava.vscode-spring-boot-dashboard",
+			"vscjava.vscode-spring-initializr",
+			"WillT.nord-nights"
+		]
+	}
+}

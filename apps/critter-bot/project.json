@@ -1,0 +1,56 @@
+{
+  "root": "apps/critter-bot",
+  "sourceRoot": "apps/critter-bot/src",
+  "projectType": "application",
+  "targets": {
+    "test": {
+      "executor": "@nxrocks/nx-spring-boot:test",
+      "options": {
+        "root": "apps/critter-bot"
+      }
+    },
+    "clean": {
+      "executor": "@nxrocks/nx-spring-boot:clean",
+      "options": {
+        "root": "apps/critter-bot"
+      }
+    },
+    "run": {
+      "executor": "@nxrocks/nx-spring-boot:run",
+      "options": {
+        "root": "apps/critter-bot"
+      }
+    },
+    "serve": {
+      "executor": "@nxrocks/nx-spring-boot:serve",
+      "options": {
+        "root": "apps/critter-bot"
+      }
+    },
+    "buildJar": {
+      "executor": "@nxrocks/nx-spring-boot:buildJar",
+      "options": {
+        "root": "apps/critter-bot"
+      }
+    },
+    "buildWar": {
+      "executor": "@nxrocks/nx-spring-boot:buildWar",
+      "options": {
+        "root": "apps/critter-bot"
+      }
+    },
+    "buildImage": {
+      "executor": "@nxrocks/nx-spring-boot:buildImage",
+      "options": {
+        "root": "apps/critter-bot"
+      }
+    },
+    "buildInfo": {
+      "executor": "@nxrocks/nx-spring-boot:buildInfo",
+      "options": {
+        "root": "apps/critter-bot"
+      }
+    }
+  },
+  "tags": []
+}
