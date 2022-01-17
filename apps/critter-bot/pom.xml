@@ -8,11 +8,11 @@
     <version>2.6.2</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
-  <groupId>com.example</groupId>
-  <artifactId>demo</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>demo</name>
-  <description>Demo project for Spring Boot</description>
+  <groupId>com.dizicode</groupId>
+  <artifactId>critter-bot</artifactId>
+  <version>0.1.2</version>
+  <name>critter</name>
+  <description>Critter bot that will run meme generator scripts inside Discord.</description>
   <properties>
     <java.version>17</java.version>
   </properties>
