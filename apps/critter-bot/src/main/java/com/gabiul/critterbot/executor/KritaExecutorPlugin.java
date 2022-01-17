@@ -2,6 +2,10 @@ package com.gabiul.critterbot.executor;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Component;
@@ -9,8 +13,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class KritaExecutorPlugin implements ExecutorPlugin {
 
-	private final static String critterFolder = "c:/critter";
-	private final static String critterTemp = "temp";
+	private final String critterFolder = "c:/critter";
+	private final String critterTemp = "temp";
 
 	@Override
 	public boolean supports(ExecutorType type) {
@@ -42,7 +46,7 @@ public class KritaExecutorPlugin implements ExecutorPlugin {
 		int i = 0;
 		for(String arg : argsInput)
 		{
-			argsstring += (i == argsInput.length - 1?" ":"") + "\"" + arg + "\"";
+			argsstring += (i != argsInput.length - 1?" ":"") + "\"" + arg + "\"";
 			i++;
 		}
 
@@ -64,11 +68,22 @@ public class KritaExecutorPlugin implements ExecutorPlugin {
 			return new File(critterFolder + "/failedWait.txt");
 		}
 
-		File file = new File(critterFolder + "/" + critterTemp + "/" + userId + ".png");
+		//get first userId.gif/png/etc and return it
+		try {
+			Path pat = Files.walk(Paths.get(critterFolder + "/" + critterTemp + "/"))
+				.filter(path -> Pattern.matches("^" + userId + "+\\.[a-z]+",  path.getFileName().toString()))
+				.findFirst().orElse(null);
 
-		if(file.exists())
-			return file;
+			if(pat != null)
+			{
+				File file = new File(pat.toString());
+				if(file.exists())
+					return file;
+			}
 
+		} catch (IOException e) {
+			return new File(critterFolder + "/failedWait.txt");
+		}
 		return new File(critterFolder + "/failedWait.txt");
 	}
 

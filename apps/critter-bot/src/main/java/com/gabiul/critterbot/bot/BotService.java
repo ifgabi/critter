@@ -86,7 +86,7 @@ class BotListenerImpl extends ListenerAdapter {
 					int i = 0;
 					for(String arg : args)
 					{
-						argsstring += (i == args.length - 1?" ":"") + arg;
+						argsstring += (i != args.length - 1?" ":"") + arg;
 						i++;
 					}
 
@@ -121,6 +121,11 @@ class BotListenerImpl extends ListenerAdapter {
 		}
 
 		throw new UnsupportedOperationException("Unsupported executorType: "+ executorType.toString().toLowerCase() + ".");
+	}
+
+	private String[] parseCommandSplit(String command)
+	{
+		return new String[10];
 	}
 
 	private String parseCommandFromCommandSplit(String[] commandSplit)
