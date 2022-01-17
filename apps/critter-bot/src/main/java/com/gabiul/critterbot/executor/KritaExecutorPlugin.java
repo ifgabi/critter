@@ -88,14 +88,28 @@ public class KritaExecutorPlugin implements ExecutorPlugin {
 	}
 
 	@Override
-	public boolean delete(File outputFile) {
+	public boolean deleteCache(String userId) {
 		//delete file after upload
-		boolean worked = outputFile.delete();
-		if(!worked)
-		{
-			System.out.println("Failed to delete file.");
+
+		try {
+			Path pat = Files.walk(Paths.get(critterFolder + "/" + critterTemp + "/"))
+				.filter(path -> Pattern.matches("^" + userId + "+\\.[a-z]+",  path.getFileName().toString()))
+				.findFirst().orElse(null);
+
+			if(pat != null)
+			{
+				File file = new File(pat.toString());
+				if(file.exists())
+				{
+					file.delete();
+					return true;
+				}
+			}
+
+		} catch (IOException e) {
 			return false;
 		}
-		return true;
+
+		return false;
 	}
 }

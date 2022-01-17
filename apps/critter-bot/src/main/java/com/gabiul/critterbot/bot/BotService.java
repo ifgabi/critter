@@ -70,7 +70,7 @@ class BotListenerImpl extends ListenerAdapter {
 
 		String messageRaw = message.getContentRaw();
 
-		String[] commandSplit = messageRaw.split(" ");
+		String[] commandSplit = parseCommandSplit(messageRaw);
 		if(commandSplit.length > 0)
 		{
 			if(commandSplit[0].charAt(0) == prefix)
@@ -99,7 +99,7 @@ class BotListenerImpl extends ListenerAdapter {
 						if(file.getPath().contains(".txt"))
 							return;
 
-						ep.delete(file);
+						ep.deleteCache(author.getId());
 					});
 
 
@@ -125,7 +125,8 @@ class BotListenerImpl extends ListenerAdapter {
 
 	private String[] parseCommandSplit(String command)
 	{
-		return new String[10];
+		//TODO parse within quotes ""
+		return command.split(" ");
 	}
 
 	private String parseCommandFromCommandSplit(String[] commandSplit)
