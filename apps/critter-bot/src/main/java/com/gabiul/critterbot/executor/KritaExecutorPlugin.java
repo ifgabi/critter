@@ -1,20 +1,27 @@
 package com.gabiul.critterbot.executor;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.ProcessBuilder.Redirect;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Component
 public class KritaExecutorPlugin implements ExecutorPlugin {
 
-	private final String critterFolder = "c:/critter";
-	private final String critterTemp = "temp";
+	private final String critterFolder = "/usr/critter";
+	private final String critterTemp = "tmp";
 
 	@Override
 	public boolean supports(ExecutorType type) {
@@ -43,6 +50,11 @@ public class KritaExecutorPlugin implements ExecutorPlugin {
 		//TODO copy .py to roaming/kritarunner/pykrita
 
 		String argsstring = "";
+		List<String> argsstringarray = new ArrayList<String>();
+
+		argsstringarray.add("/bin/bash");
+		argsstringarray.add("-c");
+
 		int i = 0;
 		for(String arg : argsInput)
 		{
@@ -50,21 +62,25 @@ public class KritaExecutorPlugin implements ExecutorPlugin {
 			i++;
 		}
 
-		String kritarunnerstring = "kritarunner -s \"" + scriptName + "\" \"" + userId + "\" " + argsstring;
+		argsstringarray.add("xvfb-run kritarunner -s \"" + scriptName + "\" \"" + userId + "\" " + argsstring);
 
-		Process p;
+		String kritarunnerstring = StringUtils.collectionToDelimitedString(argsstringarray, " ");
+		//System.out.println(kritarunnerstring);
+
+		//ProcessBuilder pb = new ProcessBuilder("bash", "-c", "set");
+
+		ProcessBuilder pb= new ProcessBuilder(argsstringarray);
+		pb.environment().put("PWD", "/");
+
 		try {
-			p = Runtime.getRuntime().exec(kritarunnerstring);
+			Process p = pb.start();
+			int exitcode = p.waitFor();
 		} catch (IOException e1) {
-			System.out.println("Problem executing kritarunner.");
-			return null;
-		}
-
-		System.out.println(kritarunnerstring);
-
-		try {
-			p.waitFor();
+			System.out.println("IO problem executing kritarunner.");
+			e1.printStackTrace();
+			return new File(critterFolder + "/failedWait.txt");
 		} catch (InterruptedException e) {
+			System.out.println("Interrupted kritarunner.");
 			return new File(critterFolder + "/failedWait.txt");
 		}
 
@@ -78,12 +94,17 @@ public class KritaExecutorPlugin implements ExecutorPlugin {
 			{
 				File file = new File(pat.toString());
 				if(file.exists())
+				{
+					System.out.print("Generation done: " + pat.getFileName() + "\n");
 					return file;
+				}
 			}
 
 		} catch (IOException e) {
+			System.out.println("IOException when trying to get userId.extension file");
 			return new File(critterFolder + "/failedWait.txt");
 		}
+		System.out.println("Never returned file");
 		return new File(critterFolder + "/failedWait.txt");
 	}
 

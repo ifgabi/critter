@@ -10,7 +10,7 @@
   </parent>
   <groupId>com.dizicode</groupId>
   <artifactId>critter-bot</artifactId>
-  <version>0.1.2</version>
+  <version>0.1.3</version>
   <name>critter</name>
   <description>Critter bot that will run meme generator scripts inside Discord.</description>
   <properties>
@@ -47,7 +47,9 @@
     </dependency>
   </dependencies>
 
+	<packaging>jar</packaging>
   <build>
+  	<finalName>critter-bot</finalName>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
