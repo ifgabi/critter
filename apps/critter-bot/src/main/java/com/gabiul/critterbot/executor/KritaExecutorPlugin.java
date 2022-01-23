@@ -20,7 +20,7 @@ import org.springframework.util.StringUtils;
 @Component
 public class KritaExecutorPlugin implements ExecutorPlugin {
 
-	private final String critterFolder = "/usr/critter";
+	private final String critterFolder = "~/critter";
 	private final String critterTemp = "tmp";
 
 	@Override
@@ -65,6 +65,7 @@ public class KritaExecutorPlugin implements ExecutorPlugin {
 		argsstringarray.add("xvfb-run kritarunner -s \"" + scriptName + "\" \"" + userId + "\" " + argsstring);
 
 		String kritarunnerstring = StringUtils.collectionToDelimitedString(argsstringarray, " ");
+		System.out.println(kritarunnerstring);
 		//System.out.println(kritarunnerstring);
 
 		//ProcessBuilder pb = new ProcessBuilder("bash", "-c", "set");

@@ -13,8 +13,10 @@ import org.apache.commons.collections4.sequence.EditCommand;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.plugin.core.config.EnablePluginRegistries;
 import org.springframework.stereotype.Component;
@@ -31,7 +33,12 @@ import net.dv8tion.jda.api.requests.RestAction;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 
 @Service
+@PropertySource("file:${user.home}/critter/secure.properties")
 public class BotService implements InitializingBean {
+
+	@Value("${discord.bottoken}")
+	private String bottoken;
+
 	private JDA botApi;
 
 	@Autowired
@@ -39,7 +46,7 @@ public class BotService implements InitializingBean {
 
 	public void start() throws Exception
 	{
-		JDABuilder builder = JDABuilder.createDefault("***REMOVED***");
+		JDABuilder builder = JDABuilder.createDefault(bottoken);
 
 		builder.addEventListeners(coreListenerImpl);
 

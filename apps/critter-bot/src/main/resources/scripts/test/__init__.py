@@ -5,8 +5,8 @@ import logging
 import ctypes
 
 def __main__(args):
-    coreFolder = "/usr/critter/"
-    outFolder = "/usr/critter/tmp"
+    coreFolder = "~/critter/"
+    outFolder = "~/critter/tmp"
     background = args[1] + ".png"
 
     #kritarunner test userid background etc
