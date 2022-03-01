@@ -4,14 +4,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.ProcessBuilder.Redirect;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Component;
@@ -20,7 +18,7 @@ import org.springframework.util.StringUtils;
 @Component
 public class KritaExecutorPlugin implements ExecutorPlugin {
 
-	private final String critterFolder = "~/critter";
+	private final String critterFolder = "/home/dizicode/critter";
 	private final String critterTemp = "tmp";
 
 	@Override
@@ -47,7 +45,6 @@ public class KritaExecutorPlugin implements ExecutorPlugin {
 		}
 
 		//TODO validate params with .ini
-		//TODO copy .py to roaming/kritarunner/pykrita
 
 		String argsstring = "";
 		List<String> argsstringarray = new ArrayList<String>();
@@ -58,24 +55,33 @@ public class KritaExecutorPlugin implements ExecutorPlugin {
 		int i = 0;
 		for(String arg : argsInput)
 		{
+			// argsstring += (i != argsInput.length - 1?" ":"") + "\\\"" + arg + "\\\"";
 			argsstring += (i != argsInput.length - 1?" ":"") + "\"" + arg + "\"";
 			i++;
 		}
 
+		// argsstringarray.add("xvfb-run kritarunner");
+		// argsstringarray.add("\"xvfb-run kritarunner -s \\\"" + scriptName + "\\\" \\\"" + userId + "\\\" " + argsstring + "\"");
 		argsstringarray.add("xvfb-run kritarunner -s \"" + scriptName + "\" \"" + userId + "\" " + argsstring);
 
 		String kritarunnerstring = StringUtils.collectionToDelimitedString(argsstringarray, " ");
-		System.out.println(kritarunnerstring);
-		//System.out.println(kritarunnerstring);
 
 		//ProcessBuilder pb = new ProcessBuilder("bash", "-c", "set");
 
+		killPrevious();
+		deleteCache(userId);
 		ProcessBuilder pb= new ProcessBuilder(argsstringarray);
 		pb.environment().put("PWD", "/");
+		pb.environment().put("PATH", "/usr/bin");
+		pb.environment().put("PYTHONPATH", "/home/dizicode/critter/scripts");
+
+		pb.redirectErrorStream(true);
+		pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
 
 		try {
 			Process p = pb.start();
-			int exitcode = p.waitFor();
+			boolean exit = p.waitFor(15000, TimeUnit.MILLISECONDS);
+			System.out.println("EXIT ERROR: " + !exit + " for " +kritarunnerstring);
 		} catch (IOException e1) {
 			System.out.println("IO problem executing kritarunner.");
 			e1.printStackTrace();
@@ -107,6 +113,23 @@ public class KritaExecutorPlugin implements ExecutorPlugin {
 		}
 		System.out.println("Never returned file");
 		return new File(critterFolder + "/failedWait.txt");
+	}
+
+	private void killPrevious()
+	{
+		try{
+			Process proc = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c", "pidof xvfb-run"} );
+			BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+			String pidstr = null;
+			while ((pidstr = stdInput.readLine()) != null) {
+				pidstr = pidstr.split(" ")[0];
+				Process killproc = Runtime.getRuntime().exec(new String[] { "/bin/bash", "-c", "kill " + pidstr} );
+			}
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	@Override

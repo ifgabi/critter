@@ -5,8 +5,8 @@ import logging
 import ctypes
 
 def __main__(args):
-    coreFolder = "~/critter/"
-    outFolder = "~/critter/tmp"
+    coreFolder = "/home/dizicode/critter/"
+    outFolder = "/home/dizicode/critter/tmp"
     background = args[1] + ".png"
 
     #kritarunner test userid background etc
@@ -14,7 +14,6 @@ def __main__(args):
 
     doc = Krita.instance().openDocument(os.path.join(coreFolder, background))
     doc.setBatchmode(True)
-
 
 
     # Parameters from colorProfilesList
