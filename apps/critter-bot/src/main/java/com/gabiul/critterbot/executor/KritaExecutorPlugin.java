@@ -73,14 +73,14 @@ public class KritaExecutorPlugin implements ExecutorPlugin {
 		ProcessBuilder pb= new ProcessBuilder(argsstringarray);
 		pb.environment().put("PWD", "/");
 		pb.environment().put("PATH", "/usr/bin");
-		pb.environment().put("PYTHONPATH", "/home/dizicode/critter/scripts");
+		pb.environment().put("PYTHONPATH", "~/critter/scripts");
 
 		pb.redirectErrorStream(true);
 		pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
 
 		try {
 			Process p = pb.start();
-			boolean exit = p.waitFor(15000, TimeUnit.MILLISECONDS);
+			boolean exit = p.waitFor(30000, TimeUnit.MILLISECONDS);
 			System.out.println("EXIT ERROR: " + !exit + " for " +kritarunnerstring);
 		} catch (IOException e1) {
 			System.out.println("IO problem executing kritarunner.");

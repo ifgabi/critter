@@ -8,7 +8,7 @@ RUN apt-get install xvfb --assume-yes
 RUN apt-get install openjdk-17-jre --assume-yes
 RUN apt-get install krita --assume-yes
 
-RUN mkdir /usr/critter
-COPY src/main/resources/critter/ /usr/critter/
+RUN mkdir ~/critter
+COPY src/main/resources/critter/ ~/critter/
 #there is no /usr/share/krita without the apt-get krita
-COPY src/main/resources/critter/scripts/ /usr/share/krita/pykrita/
+COPY src/main/resources/scripts/ ~/critter/scripts
